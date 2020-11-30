@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { Task } from './task.model';
+import { Task, TaskStatus } from './task.model';
 import { CreateTaskDto } from './dto/cteate-task.dto';
 
 @Controller('tasks')
@@ -17,9 +17,30 @@ export class TasksController {
     getAllTasks(): Task[] {
         return this.taskService.getAllTasks();
     }
-
+    
+    /**
+     * In this method is passed the param in the url. For that reason use the colon 
+     * and id, to indicate that. In the param decorator specify the key that the api
+     * is going to receive.
+     * @param id 
+     */
+    @Get('/:id')
+    getTaskById(@Param('id') id: string): Task { 
+        return this.taskService.getTaskById(id);
+    }
+    
     @Post()
     createTask(@Body() CreateTaskDto: CreateTaskDto) : Task {
         return this.taskService.createTask(CreateTaskDto);
+    }
+
+    @Delete('/:id')
+    deleteTask(@Param('id') id:string): void{
+        this.taskService.deleteTask(id);
+    }
+
+    @Patch('/:id/status')
+    updateStatusById(@Param('id') id:string, @Body('status') status: TaskStatus) : Task{
+        return this.taskService.updateStatusById(id, status);
     }
 }
