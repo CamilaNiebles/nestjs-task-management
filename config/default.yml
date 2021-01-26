@@ -1,0 +1,11 @@
+server:
+    port: 3000
+
+database:
+    type: 'postgres'
+    host: 'localhost'
+    port: 5432
+    username: 'postgres'
+    password: 'Qesete92**'
+    database: 'taskmanagement'
+    synchronize: true
